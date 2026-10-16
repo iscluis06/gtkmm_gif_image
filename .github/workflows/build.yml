@@ -1,0 +1,29 @@
+name: Build and test project
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: debian:latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y cmake build-essential git curl pkgconf-bin pkgconf libgif libgtkmm-4.0-0 libgtkmm-4.0-dev
+
+      - name: Build project
+        run: |
+          mkdir build
+          cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+          cmake --build build

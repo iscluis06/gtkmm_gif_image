@@ -1,0 +1,64 @@
+name: Generate release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: debian:latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y cmake build-essential git curl pkgconf-bin pkgconf libgif libgtkmm-4.0-0 libgtkmm-4.0-dev
+
+      - name: Package project
+        run: |
+          mkdir build
+          cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+          cd build
+          cpack
+
+      - name: Upload deb artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: deb-artifacts
+          path: build/*.deb
+
+      - name: Upload targz artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: targz-artifacts
+          path: build/*.tar.gz
+
+  release:
+    name: Create release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: ./artifacts
+          merge-multiple: true
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: ./artifacts/**/*
+          generate_release_notes: true

@@ -1,0 +1,71 @@
+#ifndef GIFIMAGE_GIFIMAGE_H
+#define GIFIMAGE_GIFIMAGE_H
+
+#include <gtkmm/image.h>
+#include <gtkmm.h>
+
+#define GIFIMAGE_VERSION "@PROJECT_VERSION@"
+
+/**
+ * Constructor for the GTK Image GIF enabled
+ */
+class GIFImage: public Gtk::Image{
+public:
+    /**
+     * Constructor which sets the image_count_ property and starts the signal timeout if frame count higher to 0,
+     * signal timeout will use frame 0 delay value.
+     * @param image_path Path to the GIF image to show
+     */
+    GIFImage(char *image_path);
+private:
+    /**
+     * Handler struct in order to keep track of the gif frame buffer, size of buffer, width and height.
+     */
+    struct FrameBufferHandle{
+        unsigned char *buffer;
+        unsigned long size;
+        int width;
+        int height;
+    };
+    /**
+     * Method that updates the image on display.
+     * It internally calls GetFrameBuffer to get next frame or reset "animation".<br>
+     * If GetFrameBuffer returns an uninitialized FrameBufferHandle, it will return false
+     * and won't update image.
+     * @return True on success otherwise false
+     */
+    bool UpdateImage();
+    /**
+     * Gets the next frame of animation
+     * @return The next frame of the gif or restart the animation
+     */
+    FrameBufferHandle GetFrameBuffer();
+    /**
+     * Reads the number of images/frames from gif file.
+     * @return The number of frames from gif
+     */
+    int GetImageCount();
+    /**
+     * Returns the current configured delay time of frame 0 in milliseconds
+     * @return The delay in milliseconds
+     */
+    int GetFrameDelay();
+    /**
+     * Property to keep track of gif path
+     */
+    char *image_path_;
+    /**
+     * Current index from frames array on gif file
+     */
+    int index_ = -1;
+    /**
+     * Property to keep track of frame count reported by gif file
+     */
+    int image_count_ = 0;
+    /**
+     * Signal property to execute timeout signals
+     */
+    sigc::connection m_connection_;
+};
+
+#endif // GIFIMAGE_GIFIMAGE_H
