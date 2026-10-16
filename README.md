@@ -11,7 +11,7 @@ to use this widget.
 * libgif (development only)
 
 ```shell
-apt install pkgconf-bin pkgconf libgif libgtkmm-4.0-0 libgtkmm-4.0-dev
+apt install pkgconf-bin pkgconf libgif7 libgif-dev libgtkmm-4.0-0 libgtkmm-4.0-dev
 ```
 
 ### Limitations

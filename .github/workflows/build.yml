@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y cmake build-essential git curl pkgconf-bin pkgconf libgif libgtkmm-4.0-0 libgtkmm-4.0-dev
+          apt-get install -y cmake build-essential git curl pkgconf-bin pkgconf libgif7 libgif-dev libgtkmm-4.0-0 libgtkmm-4.0-dev
 
       - name: Build project
         run: |
