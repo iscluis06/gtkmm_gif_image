@@ -17,6 +17,10 @@ public:
      * @param image_path Path to the GIF image to show
      */
     GIFImage(char *image_path);
+    /**
+     *  Default destructor
+     */
+    ~GIFImage();
 private:
     /**
      * Handler struct in order to keep track of the gif frame buffer, size of buffer, width and height.
@@ -28,6 +32,14 @@ private:
         int height;
     };
     /**
+     * Dynamic allocated array of FrameBufferHandle to keep track of images from gif.
+     */
+    FrameBufferHandle *frame_buffer_handle_list;
+    /**
+     * Method that initializes all properties using the information from the gif file.
+     */
+    void Initialize();
+    /**
      * Method that updates the image on display.
      * It internally calls GetFrameBuffer to get next frame or reset "animation".<br>
      * If GetFrameBuffer returns an uninitialized FrameBufferHandle, it will return false
@@ -35,21 +47,6 @@ private:
      * @return True on success otherwise false
      */
     bool UpdateImage();
-    /**
-     * Gets the next frame of animation
-     * @return The next frame of the gif or restart the animation
-     */
-    FrameBufferHandle GetFrameBuffer();
-    /**
-     * Reads the number of images/frames from gif file.
-     * @return The number of frames from gif
-     */
-    int GetImageCount();
-    /**
-     * Returns the current configured delay time of frame 0 in milliseconds
-     * @return The delay in milliseconds
-     */
-    int GetFrameDelay();
     /**
      * Property to keep track of gif path
      */
