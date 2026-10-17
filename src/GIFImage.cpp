@@ -4,7 +4,8 @@
 
 GIFImage::GIFImage(char *image_path) {
     int image_path_size = strlen(image_path);
-    this->image_path_ = new char[image_path_size];
+    this->image_path_ = new char[image_path_size+1];
+    memset(this->image_path_,0, sizeof(char) * (image_path_size+1));
     memcpy(image_path_, image_path, image_path_size);
     Initialize();
 }
