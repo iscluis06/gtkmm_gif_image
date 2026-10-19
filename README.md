@@ -1,8 +1,11 @@
-#  GTKMM GIF Enable Image Widget
+#  GTKMM GIF Enable Picture Widget
 
-Project that allows an Image Widget to show an animated gif and not only images.
+Project that allows an ~~Image~~ Picture Widget to show an animated gif and not only images.
 This is a static library, so you only need to make sure to have gtkmm 4  
 to use this widget.
+
+It previously used Gtk::Image, but due to the limitations of Image, it was decided to move 
+to Picture widget, which allows resizing and filling the GIF into all available space.
 
 ### Requirements
 
