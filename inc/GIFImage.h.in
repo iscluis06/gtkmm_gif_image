@@ -21,6 +21,10 @@ public:
      *  Default destructor
      */
     ~GIFImage();
+    /**
+     * Method thar returns the current version
+     */
+    std::string GetVersion();
 private:
     /**
      * Handler struct in order to keep track of the gif frame buffer, size of buffer, width and height.
