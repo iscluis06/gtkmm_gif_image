@@ -8,6 +8,11 @@ GIFImage::GIFImage(char *image_path) {
     memset(this->image_path_,0, sizeof(char) * (image_path_size+1));
     memcpy(image_path_, image_path, image_path_size);
     Initialize();
+    set_halign(Gtk::Align::FILL);
+    set_valign(Gtk::Align::FILL);
+    set_hexpand(true);
+    set_vexpand(true);
+    set_content_fit(Gtk::ContentFit::FILL);
 }
 
 void GIFImage::Initialize() {
@@ -69,6 +74,6 @@ bool GIFImage::UpdateImage() {
     auto pixbuf = Gdk::Pixbuf::create_from_data(this->frame_buffer_handle_list[index_].buffer,Gdk::Colorspace::RGB,false, 8,this->frame_buffer_handle_list[index_].width,
         this->frame_buffer_handle_list[index_].height, this->frame_buffer_handle_list[index_].width*3);
     auto texture = Gdk::Texture::create_for_pixbuf(pixbuf);
-    set(texture);
+    set_paintable(texture);
     return true;
 }

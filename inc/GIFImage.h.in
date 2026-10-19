@@ -9,7 +9,7 @@
 /**
  * Constructor for the GTK Image GIF enabled
  */
-class GIFImage: public Gtk::Image{
+class GIFImage: public Gtk::Picture{
 public:
     /**
      * Constructor which sets the image_count_ property and starts the signal timeout if frame count higher to 0,
